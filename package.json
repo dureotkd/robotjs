@@ -16,7 +16,9 @@
     "http": "^0.0.1-security",
     "mime": "^3.0.0",
     "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
     "node-cron": "^3.0.2",
-    "socket.io": "^4.5.4"
+    "socket.io": "^4.5.4",
+    "tesseract.js": "^4.0.2"
   }
 }

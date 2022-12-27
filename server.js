@@ -7,6 +7,8 @@ const cron = require("node-cron");
 const http = require("http");
 const server = http.createServer(app);
 
+// var robot = require("robotjs");
+
 const socketIo = require("socket.io");
 
 // Type "Hello World" then press enter.
@@ -105,6 +107,38 @@ const getHtml = async (url) => {
   }
 };
 
+const Tesseract = require("tesseract.js");
+
+const mysql = require("mysql2");
+const db = mysql.createPoolCluster();
+
+db.add("test", {
+  host: "3.39.101.222",
+  user: "root",
+  password: "@!Slsksh56539944!@",
+  database: "test",
+  port: 3306,
+});
+
+cron.schedule("*/10 * * * * *", async () => {
+  // Tesseract.recognize(
+  //   "https://cdn.imweb.me/upload/S202108256a4e268fdfbb6/9c79491c24f8f.png",
+  //   "kor"
+  //   // { logger: (m) => console.log(m) }
+  // ).then(({ data: { text } }) => {
+  //   // console.log(text);
+  // });
+
+  console.log("?");
+
+  await excute({
+    sql: "INSERT INTO tt(count) VALUES (1)",
+    type: "exec",
+  });
+
+  // console.log(a);
+});
+
 /**
  * 위에 * 표시 5개가 작업이 반복적으로 실행될 시점을 의미한다.
 순서대로, second(초), minute(분), hour(시), day-of-month(날짜), month(월), day-of-week(요일)을 의미한다.
@@ -137,3 +171,46 @@ cron.schedule("1,2,3,4,5,9 * * * *", async () => {
   // console.log(attend_company_list);
   // console.log()
 });
+
+function excute({ sql, type }) {
+  return new Promise(function (resolve, reject) {
+    db.getConnection("test", function (err, connection) {
+      if (err) {
+        console.log(JSON.stringify(err));
+      } else {
+        connection.query(sql, function (err, data, option) {
+          if (err) {
+            console.log("DB 쿼리 오류", err);
+            reject(true);
+            return;
+          }
+
+          switch (type) {
+            case "all":
+              resolve(data);
+
+              break;
+            case "row":
+              if (data) resolve(data[0]);
+              else reject(new Error("empty"));
+
+              break;
+
+            case "exec":
+              resolve(data.insertId);
+
+              break;
+
+            default:
+              reject(true);
+
+              break;
+          }
+
+          // When done with the connection, release it.
+          connection.release();
+        });
+      }
+    });
+  });
+}
