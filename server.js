@@ -7,8 +7,6 @@ const cron = require("node-cron");
 const http = require("http");
 const server = http.createServer(app);
 
-// var robot = require("robotjs");
-
 const socketIo = require("socket.io");
 
 // Type "Hello World" then press enter.
@@ -113,31 +111,102 @@ const mysql = require("mysql2");
 const db = mysql.createPoolCluster();
 
 db.add("test", {
-  host: "3.39.101.222",
-  user: "root",
-  password: "@!Slsksh56539944!@",
-  database: "test",
-  port: 3306,
+  // host: "3.39.101.222",
+  // user: "root",
+  // password: "@!Slsksh56539944!@",
+  // database: "test",
+  // port: 3306,
 });
 
-cron.schedule("*/10 * * * * *", async () => {
-  // Tesseract.recognize(
-  //   "https://cdn.imweb.me/upload/S202108256a4e268fdfbb6/9c79491c24f8f.png",
-  //   "kor"
-  //   // { logger: (m) => console.log(m) }
-  // ).then(({ data: { text } }) => {
-  //   // console.log(text);
-  // });
+const robot = require("robotjs");
+const Inko = require("inko");
+const inko = new Inko();
 
-  console.log("?");
+app.get("/robot", async (req, res) => {
+  // Speed up the mouse.
 
-  await excute({
-    sql: "INSERT INTO tt(count) VALUES (1)",
-    type: "exec",
-  });
+  console.log("zasfasz");
 
-  // console.log(a);
+  await 기다려(2000);
+
+  console.log("zzz");
+
+  // robot.mouseClick();
+
+  // await 기다려(1000);
+
+  // robot.typeString("https://pann-w1.okpann.net/Admin/Main/admin_main");
+
+  // robot.keyTap("enter");
+
+  // await 기다려(3000);
+
+  console.log("키보드 제어 시작");
+
+  /** */
+
+  // var size = 100;
+  // var img = robot.screen.capture(150, 150, size, size);
+  // // Support for higher density screens.
+  // var multi = img.width / size;
+  // // Get color at 2, 3.
+  // var color = img.colorAt(2 * multi, 3 * multi);
+
+  // console.log(color);
+
+  // // 시장정복
+  // robot.moveMouse(90, 200);
+
+  // robot.mouseClick();
+
+  // await 기다려(1000);
+
+  // // 회원관리 접근
+  // robot.moveMouse(90, 250);
+
+  // robot.mouseClick();
+
+  // const screen = robot.screen.capture(width, height);
+
+  // console.log(screen.image);
+
+  // for (let i = 0; i < 100; i++) {
+  //   robot.moveMouse(i, 200);
+  // }
+
+  // robot.moveMouse(50, 86);
+
+  // robot.typeString("ㅁㅁ");
+
+  // robot.setMouseDelay(2);
+  // var twoPI = Math.PI * 2.0;
+
+  // for (var x = 0; x < width; x++) {
+  //   y = height * Math.sin((twoPI * x) / width) + height;
+  //   robot.moveMouse(x, y);
+  // }
+
+  res.send("zz");
 });
+
+// cron.schedule("* * * * * *", async () => {
+//   // Tesseract.recognize(
+//   //   "https://cdn.imweb.me/upload/S202108256a4e268fdfbb6/9c79491c24f8f.png",
+//   //   "kor"
+//   //   // { logger: (m) => console.log(m) }
+//   // ).then(({ data: { text } }) => {
+//   //   // console.log(text);
+//   // });
+
+//   console.log("?");
+
+//   // await excute({
+//   //   sql: "INSERT INTO tt(count) VALUES (1)",
+//   //   type: "exec",
+//   // });
+
+//   // console.log(a);
+// });
 
 /**
  * 위에 * 표시 5개가 작업이 반복적으로 실행될 시점을 의미한다.
@@ -171,6 +240,14 @@ cron.schedule("1,2,3,4,5,9 * * * *", async () => {
   // console.log(attend_company_list);
   // console.log()
 });
+
+const 기다려 = (sec) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(true);
+    }, sec);
+  });
+};
 
 function excute({ sql, type }) {
   return new Promise(function (resolve, reject) {
